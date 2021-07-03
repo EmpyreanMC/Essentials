@@ -1022,6 +1022,11 @@ public class FakeServer implements Server {
     }
 
     @Override
+    public int getMaxWorldSize() {
+        return 0;
+    }
+
+    @Override
     public long getConnectionThrottle() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
