@@ -210,4 +210,8 @@ public interface IUser {
     Map<User, BigDecimal> getConfirmingPayments();
 
     Block getTargetBlock(int maxDistance);
+
+    boolean isFirstTeleport();
+
+    void setFirstTeleport(boolean firstTeleport);
 }

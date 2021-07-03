@@ -70,6 +70,7 @@ public abstract class UserData extends PlayerExtension implements IConf {
     private Boolean confirmPay;
     private Boolean confirmClear;
     private boolean lastMessageReplyRecipient;
+    private boolean firstTeleport = true;
 
     protected UserData(final Player base, final IEssentials ess) {
         super(base);
@@ -140,6 +141,21 @@ public abstract class UserData extends PlayerExtension implements IConf {
         confirmPay = _getConfirmPay();
         confirmClear = _getConfirmClear();
         lastMessageReplyRecipient = _getLastMessageReplyRecipient();
+        firstTeleport = _isFirstTeleport();
+    }
+
+    public boolean _isFirstTeleport() {
+        return config.getBoolean("firsttpa", true);
+    }
+
+    public boolean isFirstTeleport() {
+        return firstTeleport;
+    }
+
+    public void setFirstTeleport(boolean firstTeleport) {
+        this.firstTeleport = firstTeleport;
+        config.setProperty("firsttpa", firstTeleport);
+        config.save();
     }
 
     private BigDecimal _getMoney() {

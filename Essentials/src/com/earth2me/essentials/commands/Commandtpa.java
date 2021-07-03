@@ -37,6 +37,27 @@ public class Commandtpa extends EssentialsCommand {
         if (user.getWorld() != player.getWorld() && ess.getSettings().isWorldTeleportPermissions() && !user.isAuthorized("essentials.worlds." + player.getWorld().getName())) {
             throw new Exception(tl("noPerm", "essentials.worlds." + player.getWorld().getName()));
         }
+        if (user.getWorld() == player.getWorld() && !user.isFirstTeleport()) {
+            final int defaultRadius = ess.getSettings().getTeleportRadius();
+            final int radius = user.getBase().getEffectivePermissions().stream()
+                    .filter(e -> e.getPermission().startsWith("essentials.tpa.radius.") && e.getValue())
+                    .mapToInt(e -> {
+                        final String value = e.getPermission().substring(22);
+                        try {
+                            return Integer.parseInt(value);
+                        } catch (NumberFormatException ex) {
+                            return defaultRadius;
+                        }
+                    })
+                    .max()
+                    .orElse(defaultRadius);
+            if (radius > 0 && user.getLocation().distance(player.getLocation()) > radius) {
+                throw new Exception(tl("teleportMaxRadius", player.getDisplayName(), radius));
+            }
+        }
+        if (user.isFirstTeleport()) {
+            user.setFirstTeleport(false);
+        }
         // Don't let sender request teleport twice to the same player.
         if (user.getConfigUUID().equals(player.getTeleportRequest()) && player.hasOutstandingTeleportRequest() // Check timeout
             && !player.isTpRequestHere()) { // Make sure the last teleport request was actually tpa and not tpahere

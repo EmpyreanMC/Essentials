@@ -186,6 +186,11 @@ public class Settings implements net.ess3.api.ISettings {
     }
 
     @Override
+    public int getTeleportRadius() {
+        return config.getInt("teleport-radius", 100);
+    }
+
+    @Override
     public int getChatRadius() {
         return chatRadius;
     }
