@@ -62,6 +62,9 @@ public class Commandtpaccept extends EssentialsCommand {
             future.thenAccept(success -> {
                 if (success) {
                     requester.sendMessage(tl("teleporting", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+                    if (requester.isFirstTeleport()) {
+                        requester.setFirstTeleport(false);
+                    }
                 }
             });
             teleport.teleportPlayer(user, user.getTpRequestLocation(), charge, TeleportCause.COMMAND, future);

@@ -55,9 +55,6 @@ public class Commandtpa extends EssentialsCommand {
                 throw new Exception(tl("teleportMaxRadius", player.getDisplayName(), radius));
             }
         }
-        if (user.isFirstTeleport()) {
-            user.setFirstTeleport(false);
-        }
         // Don't let sender request teleport twice to the same player.
         if (user.getConfigUUID().equals(player.getTeleportRequest()) && player.hasOutstandingTeleportRequest() // Check timeout
             && !player.isTpRequestHere()) { // Make sure the last teleport request was actually tpa and not tpahere
